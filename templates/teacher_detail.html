@@ -1,0 +1,155 @@
+{% extends 'main.html' %}
+{% load static %}
+{% load widget_tweaks %}
+{%block title%}
+Teacher
+{% endblock %}
+
+{%block content%}
+<div class="container ">
+    <div class="row">
+      <div class="col-md-4">
+        <div class="card" >
+            {%for i in teacher%}
+                <img src="{{i.image.url}}" alt="pic" class="card-img-top">
+                <div class="card-body">
+                    
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">Full name : {{i.full_name}}</li>
+                        <li class="list-group-item">Gender : {{i.gender}}</li>
+                        <li class="list-group-item">Date Of Birth : {{i.date_of_birth}}</li>
+                        <li class="list-group-item">mobile Phone :  {{i.mobile_number}}</li>
+                        <li class="list-group-item">Register Date : {{i.date_of_register}}</li>
+                        <li class="list-group-item">Address : {{i.address}}</li>
+                    </ul>
+                
+                </div>
+         </div>
+         <br>
+         <button type="button" class="btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#exampleModal2">
+             Edit Photo
+        </button>
+        <br>
+         
+     </div>
+     <div class="col-md-8">
+         <div class="card">
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                  <a class="nav-link active" id="home-tab" data-bs-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Files</a>
+                </li>
+               
+              </ul>
+              <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                    <br>
+                <button type="button" class="btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#exampleModal">
+                    <i class="fa fa-print" aria-hidden="true"></i>  Add New file
+                </button>
+                <br>
+                <ul class="list-group list-group-flush">
+                    {% for i in teacher_files %}
+                      <li class="list-group-item">
+                         <a href="{{i.file_input.url}}" class="btn " download><i class="fas fa-download"></i> | {{i}} </a> 
+                         <a href="" class="btn btn-danger btn-sm float-sm-right"  data-href="{% url 'delete_teacher_file' i.id %}" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                      </li>
+                    {%endfor%}
+                </ul>
+                </div>
+                
+              </div>
+         </div>
+     </div>
+     <br>
+  </div>
+</div>
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Teacher File</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form method="POST" action="{% url 'teacher_file' i.id %}"  enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group">
+              <label for="formGroupExampleInput">File Name</label>
+              <br>
+              {{form.file_name}} 
+            </div>
+            <div class="custom-file"> 
+              <label class="custom-file-label" for="customFile">Choose file</label>
+              {{form.file_input|add_class:"custom-file-input"}}  
+          </div>
+          
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">Save</button>
+        </form>
+        </div>
+      </div>
+    </div>
+</div>
+
+<div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Edit Teacher Photo</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form method="POST" action="{% url 'edit_teacher_photo' i.id %}"  enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="custom-file"> 
+              <label class="custom-file-label" for="customFile">Choose file</label>
+              {{image_form.photo|add_class:"custom-file-input"}}  
+          </div>
+          
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">Save</button>
+        </form>
+        </div>
+      </div>
+    </div>
+</div>
+
+
+
+  {%endfor%}
+<div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Confirm Delete</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                Are you Sure You want to Delete this File permanently
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <a class="btn btn-danger btn-ok">Delete</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block script %}
+<script>
+$('#confirm-delete').on('show.bs.modal', function(e) {
+    $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
+});
+
+</script>    
+{% endblock %}

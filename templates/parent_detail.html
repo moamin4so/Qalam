@@ -1,0 +1,59 @@
+{% extends 'main.html' %}
+{% load static %}
+{% load widget_tweaks %}
+{%block title%}
+Parent
+{% endblock %}
+
+{%block content%}
+<div class="container ">
+    <div class="row">
+      <div class="col-md-4">
+        <div class="card" >
+            {%for i in parent%}
+                <div class="card-body">
+                    
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">Full name : {{i.full_name}}</li>
+                        <li class="list-group-item">Gender : {{i.gender}}</li>
+                        <li class="list-group-item">mobile Phone :  {{i.mobile_number}}</li>
+                        <li class="list-group-item">Register Date : {{i.date_of_register}}</li>
+                        <li class="list-group-item">Address : {{i.address}}</li>
+                    </ul>
+                
+                </div>
+         </div>
+         <br>
+
+         
+     </div>
+     <div class="col-md-8">
+         <div class="card">
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                  <a class="nav-link active" id="home-tab" data-bs-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Students</a>
+                </li>
+               
+              </ul>
+              <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                    <br>
+                    {%for j in students%}
+                    <ul class="list-group list-group-flush">
+                      <li class="list-group-item">{{j.full_name}} <a class="btn btn-info btn-sm float-sm-right" href="{% url 'view_student' j.id %}"><i class="fas fa-eye"></i> View</a></li>
+                    </ul>
+                    {%endfor%}
+               
+                </div>
+                
+              </div>
+         </div>
+     </div>
+     <br>
+  </div>
+</div>
+
+
+  {%endfor%}
+
+{% endblock %}

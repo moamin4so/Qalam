@@ -1,0 +1,67 @@
+{% extends 'main.html'%}
+{% load widget_tweaks %}
+{% block title %}
+  Edit Fees
+{% endblock %}
+{% block pageTitle %}
+    Edit Fees         
+{% endblock %}
+{% block content %}
+<div class="container">
+
+
+<form method="POST" action=""  enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="card">
+        <div class="card-header">
+            Edit Fees 
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label for="formGroupExampleInput">Student</label>
+                        <br>
+                        {{form.student|add_class:"form-control"}} 
+                    </div>
+                    <div class="form-group">
+                      <label for="formGroupExampleInput">Class</label>
+                      <br>
+                      {{form.student_class|add_class:"form-control"}} 
+                    </div>
+                    <div class="form-group">
+                      <label for="formGroupExampleInput">Start Date</label>
+                      <br>
+                      {{form.Start_Date}} 
+                    </div>
+                    
+                </div>
+                <div class="col">
+                    
+                    <div class="form-group">
+                        <label for="formGroupExampleInput">Fees type</label>
+                        <br>
+                        {{form.Fees_Type}} 
+                    </div>
+                    <div class="form-group">
+                      <label for="formGroupExampleInput">Amount</label>
+                      <br>
+                      {{form.Fees_Amount}} 
+                    </div>
+                    <div class="form-group">
+                      <label for="formGroupExampleInput">End Date</label>
+                      <br>
+                      {{form.end_Date}} 
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+        <div class="card-footer">
+            <button type="submit" class="btn btn-success btn-lg btn-block">Update</button>
+        </div>
+    </div>
+
+</form>
+</div>
+{% endblock %}

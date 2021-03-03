@@ -1,0 +1,63 @@
+{% extends 'main.html'%}
+{% load widget_tweaks %}
+{% block title %}
+  Edit Parent
+{% endblock %}
+{% block pageTitle %}
+    Edit Parent         
+{% endblock %}
+{% block content %}
+<div class="container">
+
+
+<form method="POST" action=""  enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="card">
+        <div class="card-header">
+            Edit Parent 
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label for="formGroupExampleInput">Full Name</label>
+                        <br>
+                        {{form.full_name}} 
+                    </div>
+                    <div class="form-group">
+                      <label for="formGroupExampleInput">Gender</label>
+                      <br>
+                      {{form.gender}} 
+                    </div>
+                    <div class="form-group">
+                      <label for="formGroupExampleInput">Mobile Number</label>
+                      <br>
+                      {{form.mobile_number}} 
+                    </div>
+                    
+                </div>
+                <div class="col">
+                    
+                    <div class="form-group">
+                        <label for="formGroupExampleInput">Date Of Registration</label>
+                        <br>
+                        {{form.date_of_register}} 
+                    </div>
+                    
+                    <div class="form-group">
+                      <label for="formGroupExampleInput">Address</label>
+                      <br>
+                      {{form.address}} 
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+        <div class="card-footer">
+            <button type="submit" class="btn btn-success btn-lg btn-block">Update</button>
+        </div>
+    </div>
+
+</form>
+</div>
+{% endblock %}

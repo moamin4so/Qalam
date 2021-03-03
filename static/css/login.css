@@ -1,0 +1,17 @@
+body{
+    background-color:#4e73df;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    margin: 0;
+}
+.container {
+  border-radius: 5px;
+  overflow: hidden;
+  width: 500px;
+  max-width: 100%;
+}
+.btnstyle{
+  background-color:#4e73df;
+}

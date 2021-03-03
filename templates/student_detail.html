@@ -1,0 +1,175 @@
+{% extends 'main.html' %}
+{% load static %}
+{% load widget_tweaks %}
+{%block title%}
+Student
+{% endblock %}
+
+{%block content%}
+<div class="container ">
+    <div class="row">
+      <div class="col-md-4">
+        <div class="card" >
+            {%for i in students%}
+                <img src="{{i.student_photo.url}}" alt="..." class="card-img-top">
+                <div class="card-body">
+                    
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">Full name : {{i.full_name}}</li>
+                        <li class="list-group-item">Father name : {{i.father_name}}</li>
+                        <li class="list-group-item">Mother name : {{i.mothers_name}}</li>
+                        <li class="list-group-item">Gender : {{i.gender}}</li>
+                        <li class="list-group-item">Date Of Birth : {{i.date_of_birth}}</li>
+                        <li class="list-group-item">Place Of Birth : {{i.place_birth}}</li>
+                        <li class="list-group-item">Parent : {{i.student_parent}}</li>
+                        <li class="list-group-item">Parent Phone :  {{i.student_parent.mobile_number}}</li>
+                        <li class="list-group-item">Registration Date : {{i.date_of_register}}</li>
+                        <li class="list-group-item">Class :
+                            {% for k in i.Student_class.all%}
+                                {{k}},
+                            {%endfor%}
+                        </li>
+                        <li class="list-group-item">Address : {{i.address}}</li>
+                    </ul>
+                
+                </div>
+         </div>
+         <br>
+         <button type="button" class="btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#exampleModal2">
+             Edit Photo
+        </button>
+        <br>
+         
+     </div>
+     <div class="col-md-8">
+         <div class="card">
+          <nav>
+            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+              <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Files</a>
+              <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Fees</a>
+            </div>
+          </nav>
+          <div class="tab-content" id="nav-tabContent">
+            <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+              <br>
+                <button type="button" class="btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#exampleModal">
+                    <i class="fa fa-print" aria-hidden="true"></i>  Add New file
+                </button>
+                <br>
+                <ul class="list-group list-group-flush">
+                    {% for i in student_files %}
+                      <li class="list-group-item">
+                         <a href="{{i.file_input.url}}" class="btn " download><i class="fas fa-download"></i> | {{i}} </a> 
+                         <a href="" class="btn btn-danger btn-sm float-sm-right"  data-href="{% url 'delete_student_file' i.id %}" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                      </li>
+                    {%endfor%}
+                </ul>
+            </div>
+            <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+              <br>
+              <ul class="list-group">
+                {% for j in student_Fees %}
+                <li class="list-group-item">
+                  {{j.Fees_Type}} |  $ {{j.Fees_Amount}} | {{j.Start_Date}} | {{j.end_Date}}
+                </li>
+                {%endfor%}
+              </ul>
+            </div>
+          </div>
+      
+            
+         </div>
+     </div>
+     <br>
+  </div>
+</div>
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Student File</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form method="POST" action="{% url 'student_file' i.id %}"  enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group">
+              <label for="formGroupExampleInput">File Name</label>
+              <br>
+              {{student_file_form.file_name}} 
+            </div>
+            <div class="custom-file"> 
+              <label class="custom-file-label" for="customFile">Choose file</label>
+              {{student_file_form.file_input|add_class:"custom-file-input"}}  
+            </div>
+          
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">Save</button>
+        </form>
+        </div>
+      </div>
+    </div>
+</div>
+
+<div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Edit Student Photo</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form method="POST" action="{% url 'edit_student_photo' i.id %}"  enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="custom-file"> 
+              <label class="custom-file-label" for="customFile">Choose file</label>
+              {{image_form.photo|add_class:"custom-file-input"}}  
+          </div>
+          
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">Save</button>
+        </form>
+        </div>
+      </div>
+    </div>
+</div>
+
+
+
+  {%endfor%}
+<div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Confirm Delete</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                Are you Sure You want to Delete this File permanently
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <a class="btn btn-danger btn-ok">Delete</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block script %}
+<script>
+$('#confirm-delete').on('show.bs.modal', function(e) {
+    $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
+});
+
+</script>    
+{% endblock %}

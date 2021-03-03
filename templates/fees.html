@@ -1,0 +1,168 @@
+{% extends 'main.html' %}
+{% load static %}
+{% load widget_tweaks %}
+{%block title%}
+Fees
+{% endblock %}
+{% block style %}
+<link href="{% static 'css/bootstrap-table.min.css' %}" rel="stylesheet">
+{% endblock %}
+{%block content%}
+<button type="button" class="btn btn-primary  float-sm-right" data-toggle="modal" data-target="#exampleModal">
+    <i class="fas fa-plus"></i>  Add New Fees
+</button>  
+<br><br>
+{% for message in messages%}
+    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+        {{message}}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+{% endfor %}
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+      <h6 class="m-0 font-weight-bold text-primary">Manage Fees</h6>
+    </div>
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class=" table table-bordered" id="dataTable" width="100%" cellspacing="0" 
+        data-toggle="table"
+        data-pagination="true"
+        data-search="true"
+        data-show-fullscreen="true"
+        data-pagination-pre-text="<"
+        data-pagination-next-text=">"
+        data-pagination-h-align="left"
+        data-pagination-detail-h-align="right"
+        data-page-list="[10,20,30,40,50,All]"   
+        >
+          <thead class="thead-light">
+            <tr>
+                <th data-field="name" data-sortable="true">Student</th>
+                <th data-field="Fees Type">Fees Type</th>
+                <th data-field="Class">Class</th>
+                <th data-field="Amount">Amount</th>
+                <th data-field="Start Date">Start Date</th>
+                <th data-field="End Date">End Date</th>
+                <th data-field="Action">Action</th>
+                
+            </tr>
+          </thead>
+          <tbody>
+            {% for i in Fees %}
+                <tr>
+                    <td>{{i.student}}</td>
+                    <td>{{i.Fees_Type}}</td>
+                    <td>{{i.student_class}}</td>
+                    <td>$ {{i.Fees_Amount}}</td>
+                    <td>{{i.Start_Date}}</td>
+                    <td>{{i.end_Date}}</td>
+                    <td>
+                        <div class="dropdown">
+                            <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              Action
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                              <a class="dropdown-item " href="{% url 'edit_fees' i.id %}"><i class="fa fa-edit"></i> Edit</a>
+                              <a class="dropdown-item" href="" data-href="{% url 'delete_fees' i.id %}" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i> Delete</a>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            {%endfor%}
+          
+          </tbody>
+        </table>
+      </div>
+    </div>
+</div>
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Add New Fees</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <form method="POST" action=""  enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="formGroupExampleInput">Student</label>
+                            <br>
+                            {{form.student|add_class:"form-control"}} 
+                        </div>
+                        <div class="form-group">
+                          <label for="formGroupExampleInput">Class</label>
+                          <br>
+                          {{form.student_class|add_class:"form-control"}} 
+                        </div>
+                        <div class="form-group">
+                          <label for="formGroupExampleInput">Start Date</label>
+                          <br>
+                          {{form.Start_Date}} 
+                        </div>
+                        
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="formGroupExampleInput">Fees type</label>
+                            <br>
+                            {{form.Fees_Type}} 
+                        </div>
+                        <div class="form-group">
+                          <label for="formGroupExampleInput">Amount</label>
+                          <br>
+                          {{form.Fees_Amount}} 
+                        </div>
+                        <div class="form-group">
+                          <label for="formGroupExampleInput">End Date</label>
+                          <br>
+                          {{form.end_Date}} 
+                        </div>
+                        
+                        
+                    </div>
+                </div>
+                
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">Save</button>
+        </form>
+        </div>
+      </div>
+    </div>
+</div>
+<div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Confirm Delete</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                Are you Sure You want to Delete this Fee permanently
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <a class="btn btn-danger btn-ok">Delete</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block script %}
+<script src="{% static 'js/bootstrap-table.min.js' %}"></script>   
+<script>
+$('#confirm-delete').on('show.bs.modal', function(e) {
+    $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
+});
+</script>     
+{% endblock %}

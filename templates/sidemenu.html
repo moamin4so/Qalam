@@ -1,0 +1,60 @@
+{% load static %}
+<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+    <!-- Sidebar - Brand -->
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{% url 'home'%}">
+      <div class="sidebar-brand-icon rotate-n-15">
+        <i class="fa fa-graduation-cap"></i>
+      </div>
+      <div class="sidebar-brand-text mx-3">Qalam</div>
+    </a>
+
+    <!-- Divider -->
+    <hr class="sidebar-divider my-0">
+
+    <!-- Nav Item - Dashboard -->
+    <li class="nav-item active">
+      <a class="nav-link" href="{% url 'home'%}">
+        <i class="fas fa-fw fa-th-large"></i>
+        <span>Dashboard</span></a>
+    </li>
+    <li class="nav-item active">
+        <a class="nav-link" href="{% url 'class'%}">
+          <i class="fas fa-fw fa-building"></i>
+          <span>Classes</span></a>
+    </li>
+    <li class="nav-item active">
+        <a class="nav-link" href="{% url 'Teacher'%}">
+          <i class="fas fa-chalkboard-teacher"></i>
+          <span>Teachers</span></a>
+    </li>
+    <li class="nav-item active">
+        <a class="nav-link" href="{% url 'parents'%}">
+          <i class="fas fa-child"></i>
+          <span>Parents</span></a>
+    </li>
+    <li class="nav-item active">
+        <a class="nav-link" href="{% url 'Student'%}">
+          <i class="fas fa-user-graduate"></i>
+          <span>Students</span></a>
+    </li>
+    <li class="nav-item active">
+      <a class="nav-link" href="{% url 'Fees'%}">
+        <i class="fas fa-comment-dollar"></i>
+        <span>Fees</span></a>
+    </li>
+    <li class="nav-item active">
+      <a class="nav-link" href="{% url 'Admins'%}">
+        <i class="fas fa-user"></i>
+        <span>Admins</span></a>
+    </li>
+
+   
+
+   
+
+    
+
+    
+
+  </ul>
