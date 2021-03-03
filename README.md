@@ -5,6 +5,7 @@
 * HTML , CSS & Javascript
 * Bootstrap
 * Django
+* SQLite
 
 ## Running Locally
 1. Must have Python 3.9 version  installed 
